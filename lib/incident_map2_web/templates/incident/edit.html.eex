@@ -1,0 +1,5 @@
+<h1>Edit Incident</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.incident_path(@conn, :update, @incident)) %>
+
+<span><%= link "Back", to: Routes.incident_path(@conn, :index) %></span>

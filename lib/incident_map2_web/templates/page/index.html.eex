@@ -1,0 +1,90 @@
+<section class="phx-hero">
+<%= if @current_user do %>
+  <h1><%= gettext "Welcome to %{name}!", name: @current_user.email %></h1>
+<% end %>
+  <p>Peace of mind from prototype to production</p>
+</section>
+
+<section class="row">
+  <article class="column">
+    <h2>Resources</h2>
+    <ul>
+      <li>
+        <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
+      </li>
+      <li>
+        <a href="https://github.com/phoenixframework/phoenix">Source</a>
+      </li>
+      <li>
+        <a href="https://github.com/phoenixframework/phoenix/blob/v1.5/CHANGELOG.md">v1.5 Changelog</a>
+      </li>
+    </ul>
+  </article>
+  <article class="column">
+    <h2>Help</h2>
+    <ul>
+      <li>
+        <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
+      </li>
+      <li>
+        <a href="https://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on Freenode IRC</a>
+      </li>
+      <li>
+        <a href="https://twitter.com/elixirphoenix">Twitter @elixirphoenix</a>
+      </li>
+      <li>
+        <a href="https://elixir-slackin.herokuapp.com/">Elixir on Slack</a>
+      </li>
+    </ul>
+  </article>
+</section>
+
+<div id="map"></div>
+<script>
+var map = L.map('map').setView([35.7100069, 139.8108103], 11);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+</script>
+
+<%= for incident <- @incidents  do%>
+<script>
+L.marker([<%= incident.lat %>, <%= incident.lng %>]).addTo(map)
+    .bindPopup('<%= incident.description %>')
+    .openPopup();
+</script>
+<% end %>
+
+<h1>Listing Incidents</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Lat</th>
+      <th>Lng</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for incident <- @incidents do %>
+    <tr>
+      <td><%= incident.description %></td>
+      <td><%= incident.lat %></td>
+      <td><%= incident.lng %></td>
+
+      <td>
+      <%= if @current_user do %>
+        <span><%= link "Show", to: Routes.incident_path(@conn, :show, incident) %></span>
+        <span><%= link "Edit", to: Routes.incident_path(@conn, :edit, incident) %></span>
+        <span><%= link "Delete", to: Routes.incident_path(@conn, :delete, incident), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      <% end %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Incident", to: Routes.incident_path(@conn, :new) %></span>

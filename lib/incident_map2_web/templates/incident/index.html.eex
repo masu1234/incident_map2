@@ -1,0 +1,30 @@
+<h1>Listing Incidents</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Lat</th>
+      <th>Lng</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for incident <- @incidents do %>
+    <tr>
+      <td><%= incident.description %></td>
+      <td><%= incident.lat %></td>
+      <td><%= incident.lng %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.incident_path(@conn, :show, incident) %></span>
+        <span><%= link "Edit", to: Routes.incident_path(@conn, :edit, incident) %></span>
+        <span><%= link "Delete", to: Routes.incident_path(@conn, :delete, incident), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Incident", to: Routes.incident_path(@conn, :new) %></span>

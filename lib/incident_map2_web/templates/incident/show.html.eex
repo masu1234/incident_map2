@@ -1,0 +1,23 @@
+<h1>Show Incident</h1>
+
+<ul>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @incident.description %>
+  </li>
+
+  <li>
+    <strong>Lat:</strong>
+    <%= @incident.lat %>
+  </li>
+
+  <li>
+    <strong>Lng:</strong>
+    <%= @incident.lng %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.incident_path(@conn, :edit, @incident) %></span>
+<span><%= link "Back", to: Routes.incident_path(@conn, :index) %></span>
